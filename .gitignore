@@ -1,0 +1,10 @@
+# Directories
+temp/
+.ssh/
+
+# Files
+.bash_history
+.git-credentials
+.viminfo
+misan
+pxyz
