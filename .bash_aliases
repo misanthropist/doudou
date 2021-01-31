@@ -9,6 +9,6 @@ alias top10='cat .bash_history|sort|uniq -c|sort -rn|head -n 10'
 
 #win10平台
 alias wiki='/cygdrive/c/Users/doudou/Chrome/kiwix/xulrunner/kiwix-serve.exe --library --port=2018 C:\\Users\\doudou\\Chrome\\kiwix\\library\\library.xml &'
-
+alias fixed_bugs='git add . && git commit -m "fixed bugs" && git push'
 
 alias pi='ssh pi@10.3.141.1' 
