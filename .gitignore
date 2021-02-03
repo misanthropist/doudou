@@ -1,6 +1,7 @@
 # Directories
 temp/
 .ssh/
+.ipython/
 
 # Files
 .bash_history
@@ -10,3 +11,4 @@ misan
 pxyz
 *.exe
 *.o
+*.stackdump

@@ -25,6 +25,12 @@ void program() {
     }
 }
 
+/* 虚拟机 **/
+int *text, *old_text, *stack;
+char *data;
+
+int *pc, *bp, *sp, ax, cycle;
+
 int eval() {
     return 0;
 }
@@ -54,6 +60,23 @@ int main(int argc, char **argv) {
     }
     src[i] = 0;
     close(fd);
+    
+    if (!(text = old_text = malloc(poolsize))) {
+        printf("could not malloc(%d) for text area\n", poolsize);
+    }
+    if (!(data = malloc(poolsize))) {
+        printf("could not malloc(%d) for data area\n", poolsize);
+    }
+    if (!(stack = malloc(poolsize))) {
+        printf("could not malloc(%d) for stack area\n", poolsize);
+    }
+
+    memset(text, 0, poolsize);
+    memset(data, 0, poolsize);
+    memset(stack, 0, poolsize); 
+
+    bp = sp = (int *)((int)stack + poolsize);
+    ax = 0;
 
     program();
     return eval();
