@@ -2,8 +2,10 @@
 temp/
 .ssh/
 .ipython/
+.cache/
 
 # Files
+.sqlite_history
 .bash_history
 .git-credentials
 .viminfo

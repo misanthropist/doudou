@@ -3,3 +3,6 @@ main: main.c
 
 start:
 	./main.exe
+
+clean:
+	rm *.o *.exe
