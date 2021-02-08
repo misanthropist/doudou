@@ -1,5 +1,5 @@
 main: main.c
-	cc main.c -o main
+	cc main.c -o main -g
 
 start:
 	./main.exe

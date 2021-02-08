@@ -35,12 +35,12 @@ struct identifier {
 };
 
 void next() {
-    printf("%c", *src);
+    //printf("%c",*src);
     char *last_pos;
     int hash;
 
     while (token = *src) {
-        printf("%d", src);
+        //printf("%c", token);
         ++src;
         if (token == '\n') {
             ++line;
@@ -49,9 +49,9 @@ void next() {
                 src++;
             }
         } else if ((token >= 'a' && token <= 'z') || (token >='A' && token <= 'Z') || (token == '_')) {
-            printf("%d", last_pos);
+           // printf("%d", last_pos);
             last_pos = src-1;
-            printf("%d", last_pos);
+            // printf("%d", last_pos);
             hash = token;
 
             while ((*src >= 'a' && *src <= 'z') || (*src >= 'A' && *src <= 'Z') || (*src >= '0' && *src <= '9') || (*src == '_')) {
@@ -85,10 +85,9 @@ void expression(int level) {
 }
 
 void program() {
-    printf("hello,world");
     next();
     while (token > 0) {
-        printf("token is: %c\n", token);
+        printf("token is: %x\n", token);
         next();
     }
 }
@@ -219,6 +218,9 @@ int main(int argc, char **argv) {
     if (!(stack = malloc(poolsize))) {
         printf("could not malloc(%d) for stack area\n", poolsize);
     }
+    if (!(symbols = malloc(poolsize))) {
+        printf("could not malloc(%d) for symbols area\n", poolsize);
+    }
 
     memset(text, 0, poolsize);
     memset(data, 0, poolsize);
@@ -240,8 +242,7 @@ int main(int argc, char **argv) {
     pc = text;
 
 
-    printf("hello\n");
     next();
-    //program();
+    program();
     return eval();
 }
