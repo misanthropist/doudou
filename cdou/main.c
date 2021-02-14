@@ -15,6 +15,10 @@ char *data;
 
 int *pc, *bp, *sp, ax, cycle;
 
+int *idmain;
+
+enum { CHAR, INT, PTR };
+
 enum { LEA, IMM, JMP, CALL, JZ, JNZ, ENT, ADJ, LEV, LI, LC, SI, SC, PUSH, OR, XOR, AND, EQ, NE, LT, GT, LE, GE, SHL, SHR, ADD, SUB, MUL, DIV, MOD, OPEN, READ, CLOS, PRTF, MALC, MSET, MCMP, EXIT };
 
 
@@ -44,12 +48,12 @@ struct identifier {
 };
 
 void next() {
-    //printf("%c",*src);
     char *last_pos;
     int hash;
 
     while (token = *src) {
-        //printf("%c", token);
+        //
+        //printf("*src is %c ",*src);
         ++src;
         if (token == '\n') {
             ++line;
@@ -232,7 +236,7 @@ void expression(int level) {
 void program() {
     next();
     while (token > 0) {
-        printf("token is: %d\n", token);
+        printf("line %d token is: %d\n", line, token);
         next();
     }
 }
@@ -330,23 +334,7 @@ int main(int argc, char **argv) {
     poolsize = 256*1024;
     line = 1;
     
-    if ((fd = open(*argv, 0)) < 0) {
-        printf("could not open(%s)\n", *argv);
-        return -1;
-    }
-
-    if (!(src=old_src=malloc(poolsize))) {
-        printf("could not malloc(%d) for source area\n", poolsize);
-        return -1;
-    }
-
-    if ((i=read(fd,src,poolsize-1)) <= 0) {
-        printf("read() returned %d\n", i);
-        return -1;
-    }
-    src[i] = 0;
-    close(fd);
-    
+   
     if (!(text = old_text = malloc(poolsize))) {
         printf("could not malloc(%d) for text area\n", poolsize);
     }
@@ -365,6 +353,45 @@ int main(int argc, char **argv) {
     memset(stack, 0, poolsize); 
     memset(symbols, 0, poolsize);
 
+    src = "char else enum if int return sizeof while "
+        "open read close printf malloc memset memcmp exit void main";
+    i = Char;
+    while (i <= While) {
+        next();
+        current_id[Token] = i++;
+    }
+
+    i = OPEN;
+    while (i<=EXIT) {
+        next();
+        current_id[Class] = Sys;
+        current_id[Type] = INT;
+        current_id[Value] = i++;
+    }
+    next();
+    current_id[Token] = Char;
+    next();
+    idmain = current_id;
+
+    if ((fd = open(*argv, 0)) < 0) {
+        printf("could not open(%s)\n", *argv);
+        return -1;
+    }
+
+    if (!(src=old_src=malloc(poolsize))) {
+        printf("could not malloc(%d) for source area\n", poolsize);
+        return -1;
+    }
+
+    if ((i=read(fd,src,poolsize-1)) <= 0) {
+        printf("read() returned %d\n", i);
+        return -1;
+    }
+    src[i] = 0;
+    close(fd);
+ 
+    program();
+    
     bp = sp = (int *)((int)stack + poolsize);
     ax = 0;
 
@@ -379,8 +406,5 @@ int main(int argc, char **argv) {
     text[i++] = EXIT;
     pc = text;
 
-
-    next();
-    program();
     return eval();
 }
