@@ -10,6 +10,8 @@ char *src, *old_src;
 int poolsize;
 int line;
 
+int basetype, expr_type;
+
 int *text, *old_text, *stack;
 char *data;
 
@@ -229,7 +231,113 @@ void next() {
     return;
 }
 
+void match(int tk) {
+    if (token == tk) {
+        next();
+    } else {
+        printf("%d: expected token: %d\n", line, tk);
+        exit(-1);
+    }
+}
+
 void expression(int level) {
+
+}
+
+void function_declaration() {
+    return;
+}
+
+void enum_declaration() {
+    int i;
+    i = 0;
+    while (token != '}') {
+        if (token != Id) {
+            printf("%d: bad enum identifier %d\n", line, token);
+            exit(-1);
+        }
+        next();
+        if (token == Assign) {
+            next();
+            if (token != Num) {
+                printf("%d: bad enum initializer\n", line);
+                exit(-1);
+            }
+            i = token_val;
+            next();
+        }
+        current_id[Class] = Num;
+        current_id[Type] = INT;
+        current_id[Value] = i++;
+
+        if (token == ',') {
+            next();
+        }
+    }
+}
+
+
+void global_declaration() {
+    int type, i;
+    basetype = INT;
+
+    if (token == Enum) {
+        match(Enum);
+        if (token != '{') {
+            match(Id);
+        }
+        if (token == '{') {
+            match('{');
+            enum_declaration();
+            match('}');
+        }
+
+        match(';');
+        return;
+    }
+
+    if (token == Int) {
+        match(Int);
+    } else if (token == Char) {
+        match(Char);
+        basetype = CHAR;
+    }
+
+    while (token != ';' && token != '}') {
+        type = basetype;
+        while (token == Mul) {
+            match(Mul);
+            type = type + PTR;
+        }
+
+        if (token != Id) {
+            printf("%d %d: bad global declaration\n", line, token);
+            exit(-1);
+        }
+        if (current_id[Class]) {
+            printf("%d: duplicate global declaration\n", line);
+            exit(-1);
+        }
+        match(Id);
+        current_id[Type] = type;
+        printf("%d %d", line, token);
+
+
+        if (token == '(') {
+            current_id[Class] = Fun;
+            current_id[Value] = (int)(text + 1);
+            function_declaration();
+        } else {
+            current_id[Class] = Glo;
+            current_id[Value] = (int)data;
+            data = data + sizeof(int);
+        }
+
+        if (token == ',') {
+            match(',');
+        }
+    }
+    next();
 
 }
 
@@ -237,7 +345,8 @@ void program() {
     next();
     while (token > 0) {
         printf("line %d token is: %d\n", line, token);
-        next();
+        global_declaration();
+
     }
 }
 
