@@ -12,6 +12,8 @@ int line;
 
 int basetype, expr_type;
 
+int index_of_bp;
+
 int *text, *old_text, *stack;
 char *data;
 
@@ -244,8 +246,125 @@ void expression(int level) {
 
 }
 
-void function_declaration() {
+void statement() {
     return;
+}
+
+
+void function_parameter() {
+    int type;
+    int params;
+    params = 0;
+    while (token != ')') {
+        printf("para token: %d", token);
+        type = INT;
+        if (token == Int) {
+            match(Int);
+        } else if (token == Char) {
+            type = CHAR;
+            match(Char);
+        }
+
+        while (token == Mul) {
+            match(Mul);
+            type = type + PTR;
+        }
+
+        if (token != Id) {
+            printf("%d: bad parameter declaration\n", line);
+            exit(-1);
+        }
+        if (current_id[Class] == Loc) {
+            printf("%d: duplicate parameter declaration\n", line);
+            exit(-1);
+        }
+
+        match(Id);
+        current_id[BClass] = current_id[Class];
+        current_id[Class] = Loc;
+        current_id[BType] = current_id[Type];
+        current_id[Type] = type;
+        current_id[BValue] = current_id[Value];
+        current_id[Value] = params++;
+
+        if (token == ',') {
+            match(',');
+        }
+    }
+
+    index_of_bp = params+1;
+}
+
+void function_body() {
+    printf("fb token: %d\n", token);
+    int pos_local;
+    int type;
+    pos_local = index_of_bp;
+
+    while (token == Int || token == Char) {
+        basetype = (token == Int) ? INT : CHAR;
+        match(token);
+
+        while (token != ';') {
+            type = basetype;
+            while (token == Mul) {
+                match(Mul);
+                type = type + PTR;
+            }
+            
+
+            if (token != Id) {
+                printf("%d: bad local declaration\n", line);
+                exit(-1);
+            }
+            if (current_id[Class] == Loc) {
+                printf("%d: duplicate local declaration\n", line);
+                exit(-1);
+            }
+            match(Id);
+
+            current_id[BClass] = current_id[Class];
+            current_id[Class] = Loc;
+            current_id[BType] = current_id[Type];
+            current_id[Type] = type;
+            current_id[BValue] = current_id[Value];
+            current_id[Value] = ++pos_local;
+
+            if (token == ',') {
+                match(',');
+            }
+        }
+        match(';');
+    }
+
+    *++text = ENT;
+    *++text = pos_local - index_of_bp;
+
+
+    while (token != '}') {
+        statement();
+    }
+
+    *++text = LEV;
+}
+
+void function_declaration() {
+    match('(');
+    function_parameter();
+    match(')');
+    match('{');
+
+    function_body();
+    
+    current_id = symbols;
+    while (current_id[Token]) {
+        if (current_id[Class] == Loc) {
+            current_id[Class] = current_id[BClass];
+            current_id[Type] = current_id[BType];
+            current_id[Value] = current_id[BValue];
+        }
+        current_id = current_id + IdSize;
+    }
 }
 
 void enum_declaration() {
