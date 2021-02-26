@@ -243,6 +243,53 @@ void match(int tk) {
 }
 
 void expression(int level) {
+    int *id;
+    int tmp;
+    int *addr;
+    if (!token) {
+        printf("%d: unexpected token EOF of expression\n", line);
+        exit(-1);
+    }
+    if (token == Num) {
+        match(Num);
+
+        *++text = IMM;
+        *++text = token_val;
+        expr_type = INT;
+    } else if (token == '"') {
+        *++text = IMM;
+        *++text = token_val;
+
+        match('"');
+        while (token == '"') {
+            match('"');
+        }
+        data = (char *)(((int) data + sizeof(int)) & (-sizeof(int)));
+        expr_type = PTR;
+    } else if (token == Sizeof) {
+        match(Sizeof);
+        match('(');
+        expr_type = INT;
+
+        if (token == Int) {
+            match(Int);
+        } else if (token == Char) {
+            match(Char);
+            expr_type = CHAR;
+        }
+
+        while (token == Mul) {
+            match(Mul);
+            expr_type = expr_type + PTR;
+        }
+        
+        match(')');
+
+        *++text = IMM;
+        *++text = (expr_type == CHAR) ? sizeof(char) : sizeof(int);
+
+        expr_type = INT;
+    }
 
 }
 
