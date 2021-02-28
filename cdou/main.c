@@ -660,7 +660,7 @@ void statement() {
         match(If);
         match('(');
         expression(Assign);
-        printf("statement\n");
+     //   printf("statement\n");
         match(')');
 
         *++text = JZ;
@@ -727,7 +727,7 @@ void function_parameter() {
     int params;
     params = 0;
     while (token != ')') {
-        printf("para token: %d", token);
+        //printf("para token: %d", token);
         type = INT;
         if (token == Int) {
             match(Int);
@@ -767,7 +767,7 @@ void function_parameter() {
 }
 
 void function_body() {
-    printf("fb token: %d\n", token);
+    //printf("fb token: %d\n", token);
     int pos_local;
     int type;
     pos_local = index_of_bp;
@@ -910,7 +910,7 @@ void global_declaration() {
         }
         match(Id);
         current_id[Type] = type;
-        printf("%d %d", line, token);
+  //      printf("%d %d", line, token);
 
 
         if (token == '(') {
@@ -934,7 +934,7 @@ void global_declaration() {
 void program() {
     next();
     while (token > 0) {
-        printf("line %d token is: %d\n", line, token);
+//        printf("line %d token is: %d\n", line, token);
         global_declaration();
 
     }
