@@ -1,0 +1,61 @@
+# Directories
+.cache/
+.ipython/
+.ssh/
+.vim/
+.vscode-server/
+bin/
+temp/
+__pycache__/
+pxyz
+misanthropist.github.io
+
+# Files
+.sudo_as_admin_successful
+.bash_history
+.python_history
+.sqlite_history
+.git-credentials
+.viminfo
+.wget-hsts
+bak
+*.exe
+*.o
+*.stackdump
+*.swp
+
+# raspbian
+.bash_logout
+.config
+.dbus
+.gnupg
+.lesshst
+.local
+.pki
+.pp_backup
+.Xauthority
+.xsession-errors
+.xsession-errors.old
+Desktop
+
+# termux
+.termux/
+storage/
+.termux_authinfo
+.mysql_history
+nohup.out
+.acodeX-server/
+.npm-global/
+.npm/
+.npminstall_tarball/
+.npmrc
+node_modules/
+package-lock.json
+package.json
+
+# Environments
+.env
+
+# Development
+*.db
+upload/*
