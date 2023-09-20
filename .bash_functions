@@ -9,7 +9,7 @@ maxphp() {
 }
 
 misan() {
-    cd ~/misan
+    cd ~/misanthropist.github.io
     python3 -m http.server --cgi 1995 >/dev/null 2>&1 &
     cd ~
 }
