@@ -16,9 +16,11 @@ misanthropist.github.io
 .python_history
 .sqlite_history
 .git-credentials
+.git-config
 .viminfo
 .wget-hsts
 bak
+.node_repl_history
 *.exe
 *.o
 *.stackdump
