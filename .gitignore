@@ -25,6 +25,8 @@ bak
 *.o
 *.stackdump
 *.swp
+.pythonstartup.py
+README.txt
 
 # raspbian
 .bash_logout
