@@ -14,3 +14,8 @@
 
 编辑.gitconfig, .gitignore配置git。
 
+git remote add origin git@github.com:misanthropist/doudou.git
+
+git config --local user.name "doudou-wsl"
+
+git config --local user.email "2814143768@qq.com"
