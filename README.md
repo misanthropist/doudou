@@ -37,3 +37,16 @@ git remote add origin git@github.com:misanthropist/doudou.git
 git config --local user.name "doudou-wsl"
 git config --local user.email "2814143768@qq.com"
 ```
+
+## 4.python配置
+
+创建flask开发虚拟环境
+
+```bash
+sudo apt install python3.7
+sudo apt install python3.7-venv
+sudo apt install gunicorn
+python3.7 -m venv temp/flask
+temp/flask/bin/pip3.7 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+temp/flask/bin/pip3.7 install -r pxyz/requirements.txt
+```
