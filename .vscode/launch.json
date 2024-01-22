@@ -54,6 +54,15 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "sudo": true
+        },
+        {
+            "name": "M10S: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "sudo": false
         }
     ]
 }
