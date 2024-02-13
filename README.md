@@ -50,3 +50,14 @@ python3.7 -m venv temp/flask
 temp/flask/bin/pip3.7 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 temp/flask/bin/pip3.7 install -r pxyz/requirements.txt
 ```
+
+## 5.常用命令
+
+```bash
+//后台运行kiwix服务器
+kiwix-serve --library temp/zim.xml -p 1996 >/dev/null 2>&1 &
+
+//挂载硬盘
+sudo fdisk -l
+sudo mount /dev/sda2 /home/doudou/temp/a
+```
