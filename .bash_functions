@@ -12,10 +12,9 @@ misan() {
     cd ~
 }
 
-pxyzg() {
-    cd ~/pxyz
+mpxyz() {
+    nginx
     nohup gunicorn -w 4 -b 0.0.0.0:8000 wsgi:app >/dev/null 2>&1 &
-    cd ~
 }
 
 pushm10s() {
