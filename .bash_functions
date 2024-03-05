@@ -2,6 +2,16 @@ test() {
     echo $1
 }
 
+gitsync() {
+    cd ~
+    git pull
+    cd ~/misanthropist.github.io
+    git pull
+    cd ~/pxyz
+    git pull
+    cd ~
+}
+
 vscode() {
     nohup code-server >/dev/null 2>&1 &
 }
@@ -12,7 +22,7 @@ misan() {
     cd ~
 }
 
-mpxyz() {
+pxyz() {
     nginx
     nohup gunicorn -w 4 -b 0.0.0.0:8000 wsgi:app >/dev/null 2>&1 &
 }
@@ -41,3 +51,10 @@ pullpi() {
     scp -r doudou@192.168.0.99:~/$1 $2
 }
 
+pushx50() {
+    scp -r -P 8022 $1 u0_a176@192.168.0.100:~/$2
+}
+
+pullx50() {
+    scp -r -P 8022 u0_a176@192.168.0.100:~/$1 $2
+}

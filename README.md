@@ -60,4 +60,10 @@ kiwix-serve --library temp/zim.xml -p 1996 >/dev/null 2>&1 &
 //挂载硬盘
 sudo fdisk -l
 sudo mount /dev/sda2 /home/doudou/temp/a
+
+//aes128解密
+openssl aes-128-cbc -d -in {} -out {} -nosalt -iv f0d331df7ba042c907a2412c9f0e4817 -K a17d2e4acb01ef2571e6d55c862e4a24"
+
+//合并hls
+ffmpeg -allowed_extensions ALL -i index.m3u8 -c copy filename.mp4
 ```
