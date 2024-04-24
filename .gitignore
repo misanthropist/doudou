@@ -9,6 +9,7 @@ temp/
 __pycache__/
 pxyz
 misanthropist.github.io
+.landscape
 
 # Files
 .sudo_as_admin_successful
@@ -26,6 +27,7 @@ bak
 *.swp
 .pythonstartup.py
 README.txt
+.motd_shown
 
 # raspbian
 .bash_logout
